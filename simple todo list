@@ -1,0 +1,52 @@
+import React, { useState } from 'react'
+
+export default function Mock(props) {
+    const[Task,settask]=useState("");
+    const[add,newadd]=useState([]);
+    const myChange=(e)=>{
+        
+        settask(e.target.value);
+        console.log(Task);
+    }
+    const Addtask=(e)=>{
+        e.preventDefault();
+        console.log("submit")
+newadd([...add,Task]);
+settask("")
+
+    }
+    const Delete=(a)=>{
+      console.log("deleted")
+      
+        const finalData = add.filter((elm,index)=>{
+            return index !== a;
+        })
+        newadd(finalData)
+    }
+      // newadd([""])
+    
+  return (
+    <div>
+        {/* <form onSubmit={Addtask}> */}
+    <input value={Task} onChange={myChange}></input>
+    <button onClick={Addtask} >add</button>
+    {/* </form> */}
+    {/* <button onClick={Delete}>delte items
+    </button> */}
+    {/* <li>{add}</li> */}
+    {add.map((value,index)=>{
+      // id={index}
+      
+        return(
+        // id={index}
+<li style={{ color: index % 2 === 0  ? "blue" : "red" }}>{value} 
+<button onClick={()=>Delete(index)}>delete</button>
+</li>
+
+        )
+    })}
+    
+    
+    </div>
+  )
+}
