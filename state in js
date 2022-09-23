@@ -1,0 +1,10 @@
+import React, { Component } from "react";
+export default class Good extends Component {
+  state = {
+name:"puspeh",
+city:this.props.City
+  };
+  render() {
+    return <h1>my name is{this.state.name}{this.state.city}</h1>;
+  }
+}
