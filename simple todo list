@@ -1,52 +1,87 @@
-import React, { useState } from 'react'
+import { useState } from "react";
+import "./styles.css";
 
-export default function Mock(props) {
-    const[Task,settask]=useState("");
-    const[add,newadd]=useState([]);
-    const myChange=(e)=>{
-        
-        settask(e.target.value);
-        console.log(Task);
-    }
-    const Addtask=(e)=>{
-        e.preventDefault();
-        console.log("submit")
-newadd([...add,Task]);
-settask("")
-
-    }
-    const Delete=(a)=>{
-      console.log("deleted")
-      
-        const finalData = add.filter((elm,index)=>{
-            return index !== a;
-        })
-        newadd(finalData)
-    }
-      // newadd([""])
-    
-  return (
-    <div>
-        {/* <form onSubmit={Addtask}> */}
-    <input value={Task} onChange={myChange}></input>
-    <button onClick={Addtask} >add</button>
-    {/* </form> */}
-    {/* <button onClick={Delete}>delte items
-    </button> */}
-    {/* <li>{add}</li> */}
-    {add.map((value,index)=>{
-      // id={index}
-      
-        return(
-        // id={index}
-<li style={{ color: index % 2 === 0  ? "blue" : "red" }}>{value} 
-<button onClick={()=>Delete(index)}>delete</button>
-</li>
-
-        )
-    })}
-    
-    
-    </div>
-  )
+export default function App() {
+  const[add,setadd]=useState();
+  const[todos,settodo]=useState([]);
+  const[toggle,settoggle]=useState("add");
+  const [updateItemId, setupdateItemId] = useState(-1);
+const click=(e)=>{
+  console.log(e.target.value);
+setadd(e.target.value)
 }
+const list=()=>{
+  if(updateItemId>=0){
+    const data=[todos];
+    data[0][updateItemId]=add;
+    settodo(data[0])
+    setupdateItemId(-1);
+    settoggle("Add");
+    setadd("");
+  }
+  //  else {
+  //    if(add.length===0){
+  //   alert("can't add empty string")
+  // }
+
+else 
+if(add.length===0){
+  alert("not")
+}
+else{
+  
+  settodo([add,...todos]);
+  
+ setadd ("");
+}
+  
+}
+const Delete=(id)=>{
+  console.log("deleted");
+ const deldata= todos.filter((elm,ind)=>{
+return ind!==id
+
+  });
+  settodo(deldata);
+}
+const Edit=(id)=>{
+  settoggle("update")
+  setupdateItemId(id);
+  setadd(todos[id]);
+// settoggle(" ");
+  }
+  // settoggle("add");
+  // settoggle(false);
+  // setadd(editdata.index);
+  
+
+
+  return (
+    <div className="App">
+     <input value= {add} onChange={click}></input>
+     {/* {toggle?<button onClick={list}>Add</button>:<button onClick={list}>editnow</button>} */}
+     <button onClick={list}>{toggle}</button>
+     {/* {todos.length===0?"not add":"good"} */}
+      {/* {todos.length===0?"cant add":"nice"} */}
+      <ol>
+     {
+
+todos.map((index,ids)=>{
+ 
+  return(
+    
+    <div key={ids}>
+      <li>
+      
+{index}<button onClick={()=>Delete(ids)}>delete</button><button onClick={()=>Edit(ids)}>edit</button>
+</li>
+  
+</div>
+  )
+})
+     }
+     </ol>
+    </div>
+  );
+}
+
